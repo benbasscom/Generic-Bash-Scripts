@@ -1,0 +1,23 @@
+# This is the excludes file for rsync.  These are the current files we have excluded so far. 
+# The majority are from the CCC always exclude list.
+
+.TemporaryItems/
+._*
+.DS_Store
+.Trashes
+.com.bombich.ccc.start_time
+.fseventsd
+.HFS+ Private Directory Data*
+.journal
+.journal_info_block
+.metadata_never_index
+/.com.apple.timemachine.donotpresent
+.Spotlight-V100
+.hotfiles.btree
+/private/var/db/dyld/dyld_*
+/.com.apple.NetBootX**
+/.vol/*
+/Volumes/*
+/Backups.backupdb
+/private/tmp/kacta.txt
+/private/tmp/kactd.txt

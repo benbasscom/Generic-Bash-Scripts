@@ -1,0 +1,51 @@
+system_profiler SPSoftwareDataType | grep "Computer Name:" | awk '{print "Host Name: " $3}'; 
+
+ifconfig en3 | GREP "inet " | awk '{print "iPhone IP: " $2}'; 
+
+ifconfig en1 | GREP "inet " | awk '{print "Airport IP Address: " $2}';
+
+airport -I | grep " SSID" | awk '{print $1" "$2" "$3" "$4" "$5" "$6}';
+
+airport -I | grep lastTxRate | awk '{print "Airport Link Speed: " $2" Mbit/s"}'; 
+
+ifconfig en0 | GREP "inet " | awk '{print "Ethernet IP Address: " $2}';
+
+
+curl -s http://automation.whatismyip.com/n09230945.asp | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" | awk '{print "External IP: "$1}';
+
+curl -s http://ipchicken.com | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" | awk '{print $1}' | xargs nslookup | grep "name =" | awk '{print "DNS = "$4}'; 
+
+echo " "; 
+
+uptime | awk '{print "Uptime: " $3" "$4" "$5}'; 
+top -l 1 | awk '/Load/ {print $1 " " $2 " " $3 " " $4" " $5}'; 
+top -l 1 | awk '/CPU usage/ {print $1 " " $2" " $3" "$4" "$5" "$6" "$7" "$8}';
+top -l 1 | awk '/PhysMem/ {print $1 " " $2" " $3" "$4" "$5" "$6" "$7" "$8" "$9" "$10" "$11}'; 
+system_profiler SPPowerDataType | grep Connected: | awk '/Connected:/ {print "A/C Adapter "$1 " " $2}'; 
+
+echo " "; 
+
+date;
+
+
+If var is null, then this is true.
+if [ -z "$VAR" ];
+
+Set variables and then run as bash script, instead of line after line.....
+Variable for each, then just call?
+icanhazip.com is nice - curling it just passes the IP.  Can look it up once, display it, and then run DNS against it.  No need for secondary calling for DNS.
+
+#get external ip
+external=$(curl -s www.icanhazip.com | awk {'print $1'})
+
+
+curl -s www.icanhazip.com | xargs nslookup | grep "name =" | awk '{print "DNS = "$4}'
+
+Need to do:
+VPN IP's
+ppp0 = PPTP & L2TP
+utun1 = TAM VPN
+
+Uptime to be see if can print out Hour vs Hours.   Have Day vs Days working.  Need to figure out how to nest more if: then statements?
+
+Added VPN's, as well as changed how hour & hours works via a simple function.
