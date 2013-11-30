@@ -1,0 +1,131 @@
+# SPACE MACHINE (v20130328)
+# Copyright (c) 2013, Elmar Czeko
+# relevantcircuits.org - gplus.to/elmarczeko - twitter @elmarczeko
+# This work is licensed under a Creative Commons Attribution 3.0 Unported License.
+# http://creativecommons.org/licenses/by/3.0/
+
+# COMMENTS
+# parameters with [default] values can be omitted
+# first word in line is parameter key
+# arguments are seperated by a single blank from the key
+# lines starting with a hash key are comments
+
+# JOBS
+# at least one folder job has to be defined [essential]
+# settings: source folder, target folder, "serverIsSource" or "serverIsTarget"
+# server refers to the remote NAS
+# no blanks next to commas!
+folderJob /Photos/,/volume1/Backup/Photos/,serverIsTarget
+folderJob /Music/,/volume1/Backup/Music/,serverIsTarget
+folderJob /Shared/,/volume1/Shared/,serverIsSource
+
+# INTERVAL
+# numbers of days that have to pass before a new backup is performed
+# settings: 1 [default], 2, 3, ...
+# if set to zero, a new backup is performed during each script call
+jobInterval 1
+
+# CREATE DATE SUBFOLDER 
+# use subfolder with current date on target
+# settings: on, off [default]
+dateFolder off
+
+# LOCATION
+# settings: detect [default], local, remote
+# local: use server defined by "rsyncTargetLocalServer"
+# remote: use server defined by "rsyncTargetRemoteServer"
+setLocation detect
+
+# LOCAL Wifi
+# SSID/name of home Wifi that identifies the location as "local" when "setLocation" is set to "detect"
+localWifi MyWifi
+
+# LOCAL SERVER
+# address or IP of NAS server in local Wifi
+rsyncTargetLocalServer myNAS
+
+# REMOTE SERVER
+# domain name of remote server (use dynamic domain name services for changing home IPs)
+rsyncTargetRemoteServer myNAS.com
+
+# LOCAL RSYNC PARAMETERS
+# below settings recommended:
+# (a)rchive mode, (v)erbose, (z)compress, (h)uman readable file sizes, (delete) extra files on target,
+# (delete-excluded) delete files that are filtered out and present on target, (timeout) quit after 300 s of inactivity
+# more detailed (stats) in output
+# for details please refer to http://rsync.samba.org/ftp/rsync/rsync.html
+rsyncLocalParameters -avzhhP --delete --delete-excluded --timeout=300 --stats
+
+# REMOTE RSYNC PARAMETERS
+# see above
+rsyncRemoteParameters -avzhhP --delete --delete-excluded --timeout=300 --stats
+
+# FILTER
+# subfolders and files in source folder that should not be synchronized
+# proper configuration may require some testing
+# for details please refer to http://rsync.samba.org/ftp/rsync/rsync.html
+# settings: file name, off [default] 
+rsyncFilter /Users/System/myBackup.rules
+
+# SSH USER
+# it is essential for Space Machine that password-free key-based login is configured
+sshUser Me
+
+# SSH PORT
+# settings: 22 [default], or any other available port
+# to increase security it is recommended to change the SSH port to a port other than 22
+# port 22 is a routine target of automated break in attemps 
+sshPort 22
+
+# ADMINISTRATOR
+# status emails are sent to this address
+administratorMail myEmail@gmail.com
+
+# NOTIFICATION TYPE
+# all notifications types need to be configured on the system
+# growl requires growlnotify
+# nail can be obtained via the IPKG package on a Diskstation
+# settings: mail [default if "linuxDistribution" is "mac"], growl, nail [forced if linuxDistribution is "diskstation"])
+notificationType growl
+
+# VERBOSITY
+# adjust verbosity of script notifications
+# settings: 0 mute, 1 completion, 2 everything [default]
+verbosityLevel 1
+
+# TARGET ACTIVATION
+# send an email to "manualTargetActivationMail" if target server is unavailable requesting manual activation of server
+# settings: on, off [default]
+manualTargetActivation on
+
+# TARGET ACTIVATION MAIL
+# target activation requests are sent to this address
+manualTargetActivationMail myEmail@gmail.com
+
+# TARGET ACTIVATION REMINDER
+# if target server is still unavailable after indicated number of days, a reminder email is sent
+# settings: 1 [default], 2, 3, ...
+waitForTargetReminder 1
+
+# LINUX DISTRIBUTION
+# this parameter accounts for system-specific differences between Mac and Diskstation
+# settings: mac [default], diskstation
+linuxDistribution mac
+
+# AUTOMATIC BOOTUP FLAG FILE ON REMOTE NAS
+# path of flag file on remote NAS that indicates automatic bootup
+# relevant when startCheck.sh and stopCheck.sh scripts are running on remote NAS
+# will be introduced in future post on relevantcircuits.org
+startStopFlag /volume1/startStop.flag
+
+# POWER OFF REMOTE SERVER
+# power off remote server when backup is completed
+# settings: on, off [default]
+powerOffRemoteServer
+
+# GENERAL LOG
+# keep same file for all backup jobs
+# may be needed for troubleshooting
+# used to log overlapping job calls (occurs on Mac with backup runs spanning cron calls)
+generalLogMac $HOME/spaceMachine/spaceMachine.$USER.log
+generalLogDiskstation /volume1/spaceMachine/spaceMachine.log
