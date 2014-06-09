@@ -1,18 +1,9 @@
 #!/bin/bash
 # Checks the WAN IP.
-vers="wan_chck-0.3"
+vers="wan_chck-0.4"
 # reads the previous WAN IP from file, then compares to current WAN IP.
 # if the wan_chck_ip.log does not exist, create it.
 # logs everything to files.
-
-
-#check for logging directory.  If it does exist, continue, else create it.
-if [ -d /Library/Logs/com.example/ ]; then
-	echo "log directoy exists, continuing"
-	else
-	echo "Log directory does not exist, creating."
-	mkdir /Library/Logs/com.example/
-fi
 
 
 log="/Library/Logs/com.example/wan_chck.log"
