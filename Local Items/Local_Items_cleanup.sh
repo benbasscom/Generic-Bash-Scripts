@@ -6,6 +6,7 @@
 sphard="$(system_profiler SPHardwareDataType)"
 uuid="$(echo "$sphard" | grep "Hardware UUID:" | awk '{print $3}')"
 
+echo $HOME
 
 mv $HOME/Library/Keychains/$uuid/ $HOME/.Trash
 
