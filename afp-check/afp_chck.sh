@@ -1,9 +1,11 @@
 #!/bin/bash
 # afp_chck.sh
-# Version 0.2
+# Version 0.3
 # Creation Date 2015-04-10
 # Last Modified Date 2015-12-15
-#
+# 0.1 -	Initial Script
+# 0.2 -	Addition of secondary check - AppleFileServer will not launch until a connection is attempted
+# 0.3 -	Had to change quotes for server_admin_chck
 # Created by Blake Robertson on 4/10/15.
 # Script for OS X Server to check the AFP service and start it if it is not running
 # Updated by Ben Bass on 12/15/2015
@@ -58,7 +60,7 @@ exec 2>> "${err_log}"
 
 when="$(date +%Y-%m-%d-%H:%M:%S)"
 afp_status="$(ps awx | grep -q AppleFileServer ; echo $?)"
-
+server_admin_chck="$(serveradmin status afp | awk '{print$3}')"
 
 ####################################
 # 01
@@ -68,20 +70,16 @@ afp_status="$(ps awx | grep -q AppleFileServer ; echo $?)"
 
 rootcheck
 
-
 # echo out to the log date and time and the current status of AFP
-echo "On "$(date)", the afp status is ""$CURRENT_STATUS"
-
+echo "On "$(date)", the afp status is "$afp_status" and "$server_admin_chck""
 
 # Check the afp status
-if [ "$CURRENT_STATUS" == 1 ] ; then
-
+if [ "$afp_status" == 1 ] || [ "$server_admin_chck" != '"RUNNING"' ]; then
 	echo "afp is not running, starting at ""$when"
-    serveradmin start afp
-    echo "AFP Service started on" "$when"
+	serveradmin start afp
+	echo "AFP Service started on" "$when"
 else
-
-    echo "AFP Service is running properly at ""$when"
+	echo "AFP Service is running properly at ""$when"
 
 fi
 
