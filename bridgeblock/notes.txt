@@ -1,0 +1,12 @@
+
+
+1.	Find Nics 				- networksetup
+2.	Get interface of Nics	- reads /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist - SCNetworkInterfaceType
+3.	Get "Real Interfaces"	- reads /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist - BSD name
+4.	Check if "interface" is "IEEE80211" or Ethernet. - read from above variables - add BSD name to appropriate array
+5.	Echo out individual arrays - Airport and Ethernet.
+6.	Check for activity on Ethernet 	- netstat on the BSD name, see if more than one line, if so, run ifconfig on bsd name.
+7.	If any activity on "Ethernet" ports, set airport power (bsd name of IEEE80211) to off - exit 0.
+
+
+
